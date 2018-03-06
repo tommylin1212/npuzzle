@@ -9,7 +9,7 @@ public class Node {
     private String parent;
 
 
-    public Node(ArrayList<Integer> init_state, String parent_id) {
+    Node(ArrayList<Integer> init_state, String parent_id) {
         setState(init_state);
         setId(((Integer) (System.identityHashCode(this))).toString());//unique id
         setParent(parent_id);
@@ -20,7 +20,7 @@ public class Node {
         return state;
     }
 
-    public void setState(ArrayList<Integer> state) {
+    private void setState(ArrayList<Integer> state) {
         this.state = state;
     }
 
@@ -28,7 +28,7 @@ public class Node {
         return id;
     }
 
-    public void setId(String id) {
+    private void setId(String id) {
         this.id = id;
     }
 
@@ -36,11 +36,11 @@ public class Node {
         return parent;
     }
 
-    public void setParent(String parent) {
+    private void setParent(String parent) {
         this.parent = parent;
     }
 
     public void print() {
-        System.out.print("State: " + state);
+        System.out.println("Id: " + id + ", State: " + state + ", Parent: " + parent);
     }
 }

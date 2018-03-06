@@ -4,22 +4,20 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class init {
+
     public static void main(String[] args) {
-        ArrayList<Integer> startState = new ArrayList<>();
-        for (int i = 0; i < 9; i++) {
-            startState.add(i);
+        Integer size = (new Integer(args[0]));
+        ArrayList<Integer> startState = initPuzzle(size);
+        while (!testPuzzle(startState)) {
+            startState = initPuzzle(size);
         }
-        Collections.shuffle(startState);
-        if (!testPuzzle(startState)) {
-            System.out.print("Not ");
-        }
-        System.out.println("Solvable");
         Node start = new Node(startState, "-1");
         n_by_n_puzzle current_puzzle = new n_by_n_puzzle(start);
         current_puzzle.printNodes();
     }
 
-    static boolean testPuzzle(ArrayList<Integer> puzzle) {
+
+    private static boolean testPuzzle(ArrayList<Integer> puzzle) {
         Integer rowSize = new Double(Math.sqrt(puzzle.size())).intValue();
         Integer size = puzzle.size();
         Integer count = 0;
@@ -58,5 +56,14 @@ public class init {
             blankOddFromBottom = true;
         }
         return (gridWidthOdd && inversionsEven) || (!gridWidthOdd && (blankOddFromBottom == inversionsEven));
+    }
+
+    private static ArrayList<Integer> initPuzzle(Integer size) {
+        ArrayList<Integer> startState = new ArrayList<>();
+        for (int i = 0; i < size * size; i++) {
+            startState.add(i);
+        }
+        Collections.shuffle(startState);
+        return startState;
     }
 }
