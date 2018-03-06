@@ -20,7 +20,7 @@ public class n_by_n_puzzle {
     }
 
 
-    private void addNode(Node node) {
+    public void addNode(Node node) {
         this.nodes.add(node);
     }
 
@@ -30,11 +30,13 @@ public class n_by_n_puzzle {
         }
     }
 
-    private void getNext(Node current) {
+    public ArrayList<Node> getNext(Node current) {
+        ArrayList<Integer> originalState = current.getState();
         int blankPos = 0;
         while (true) {
             if (current.getState().get(blankPos++) == 0) break;
         }
+        blankPos -= 1;
         int pos = new Double(blankPos + 1 % Math.sqrt(current.getState().size())).intValue();
         ArrayList<Integer> validIndices = new ArrayList<>();
         if (pos == 0) {
@@ -61,13 +63,32 @@ public class n_by_n_puzzle {
             validIndices.add(blankPosRight);
             validIndices.add(blankPosUp);
         }
+        ArrayList<Node> newNodes = new ArrayList<>();
+        ArrayList<Integer> toRemove = new ArrayList<>();
         for (Integer move : validIndices) {
-            if ((move > current.getState().size()) || (move < 0)) {
-                validIndices.remove(move);
+            if ((move >= current.getState().size()) || (move < 0)) {
+                toRemove.add(move);
             }
         }
+        for (Integer index : toRemove) {
+            validIndices.remove(index);
+        }
+        validIndices.trimToSize();
+        for (Integer move : validIndices) {
+            ArrayList<Integer> newState = new ArrayList<>(originalState);
+            newState = swap(newState, move, blankPos);
+            newNodes.add(new Node(newState, current.getId()));
 
+        }
+        return newNodes;
+    }
 
+    private ArrayList<Integer> swap(ArrayList<Integer> current, Integer from, Integer to) {
+        Integer atFrom = current.get(from);
+        Integer atTo = current.get(to);
+        current.set(from, atTo);
+        current.set(to, atFrom);
+        return current;
     }
 }
 

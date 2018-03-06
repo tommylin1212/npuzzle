@@ -13,6 +13,11 @@ public class init {
         }
         Node start = new Node(startState, "-1");
         n_by_n_puzzle current_puzzle = new n_by_n_puzzle(start);
+        ArrayList<Node> nodes = current_puzzle.getNext(start);
+        for (Node node : nodes) {
+            current_puzzle.addNode(node);
+        }
+
         current_puzzle.printNodes();
     }
 
