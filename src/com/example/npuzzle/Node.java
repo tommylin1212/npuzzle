@@ -27,6 +27,16 @@ public class Node {
         }
     }
 
+    Node(Node node) {
+        setPathCost(node.getPathCost());
+        setSize(node.getSize());
+        setRule(node.isRule());
+        setId(node.getId());
+        setParent(node.getParent());
+        setState(node.getState());
+        calcCostGoal(node.getState().size());
+    }
+
     private void calcCostGoal(Integer size) {
         displacement = 0.0;
         Integer rowSize = new Double(Math.sqrt(size)).intValue();
@@ -70,7 +80,7 @@ public class Node {
         this.state = state;
     }
 
-    public String getId() {
+    private String getId() {
         return id;
     }
 
@@ -78,7 +88,7 @@ public class Node {
         this.id = id;
     }
 
-    public Node getParent() {
+    private Node getParent() {
         return parent;
     }
 
@@ -90,15 +100,15 @@ public class Node {
         System.out.println("Id: " + id + ", State: " + state + ", Displacement: " + displacement + ", Parent: " + parent);
     }
 
-    public boolean isRule() {
+    private boolean isRule() {
         return rule;
     }
 
-    public void setRule(boolean rule) {
+    private void setRule(boolean rule) {
         this.rule = rule;
     }
 
-    public Double getDisplacement() {
+    private Double getDisplacement() {
         return displacement;
     }
 
@@ -110,15 +120,43 @@ public class Node {
         return pathCost;
     }
 
-    public void setPathCost(Double pathCost) {
+    private void setPathCost(Double pathCost) {
         this.pathCost = pathCost;
     }
 
-    public Integer getSize() {
+    private Integer getSize() {
         return size;
     }
 
-    public void setSize(Integer size) {
+    private void setSize(Integer size) {
         this.size = size;
+    }
+
+    private void prettyPrint() {
+        Integer rowsize = new Double(Math.sqrt(getSize())).intValue();
+        for (int i = 0; i < rowsize + 2; i++) {
+            System.out.print("-");
+        }
+        System.out.println();
+        for (int i = 0; i < getSize(); i++) {
+            if (i % rowsize == 0) {
+                System.out.print("|");
+            }
+            System.out.print(state.get(i));
+            if (i % rowsize == rowsize - 1) {
+                System.out.println("|");
+            }
+        }
+        for (int i = 0; i < rowsize + 2; i++) {
+            System.out.print("-");
+        }
+        System.out.println();
+    }
+
+    public void traceBack() {
+        if (getParent() != null) {
+            getParent().traceBack();
+        }
+        prettyPrint();
     }
 }

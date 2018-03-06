@@ -1,12 +1,13 @@
 package com.example.npuzzle;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ExploredSet {
     private ArrayList<Node> nodes;
 
     ExploredSet() {
-        nodes = new ArrayList<Node>();
+        nodes = new ArrayList<>();
     }
 
     public void add(Node node) {
@@ -15,27 +16,23 @@ public class ExploredSet {
 
     public boolean check(Node node) {
         for (Node testNode : nodes) {
-            if (testNode.getState().toArray() == node.getState().toArray()) {
-                System.out.println("Matched: exset");
+            if (Arrays.equals(testNode.getState().toArray(), node.getState().toArray())) {
                 return true;
             }
         }
         return false;
     }
 
-    public void remove(Node node) {
-        for (Node testNode : nodes) {
-            if (testNode.getState() == node.getState()) {
-                nodes.remove(testNode);
-                nodes.trimToSize();
-                return;
-            }
+    public void print() {
+        System.out.println("**************EXSET***************");
+        for (Node node : nodes) {
+            System.out.println(node.getState());
         }
+        System.out.println("**********************************");
     }
 
-    public Node getFront() {
-        Node temp = nodes.remove(0);
-        nodes.trimToSize();
-        return temp;
+    public Integer getSize() {
+        return nodes.size();
     }
+
 }

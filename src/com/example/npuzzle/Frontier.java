@@ -1,6 +1,7 @@
 package com.example.npuzzle;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Frontier {
     private ArrayList<Node> nodes;
@@ -10,20 +11,19 @@ public class Frontier {
     }
 
     public void add(Node node) {
-        for (Node testNode : nodes) {
-            if (testNode.getPathCost() > node.getPathCost()) {
+        int i;
+        for (i = 0; i < nodes.size(); i++) {
+            if (nodes.get(i).getPathCost() > node.getPathCost()) {
                 break;
             }
         }
-        nodes.add(node);
+        nodes.add(i, node);
     }
 
     public boolean check(Node node) {
         for (Node testNode : nodes) {
-            if (testNode.getState().equals(node.getState())) {
-                System.out.println("Matched: front");
+            if (Arrays.equals(testNode.getState().toArray(), node.getState().toArray())) {
                 return true;
-
             }
         }
         return false;
@@ -31,7 +31,7 @@ public class Frontier {
 
     public void remove(Node node) {
         for (Node testNode : nodes) {
-            if (testNode.getState().toArray() == node.getState().toArray()) {
+            if (Arrays.equals(testNode.getState().toArray(), node.getState().toArray())) {
                 nodes.remove(testNode);
                 nodes.trimToSize();
                 return;
@@ -47,7 +47,7 @@ public class Frontier {
 
     public Node getNode(Node node) {
         for (Node testNode : nodes) {
-            if (testNode.getState().toArray() == node.getState().toArray()) {
+            if (Arrays.equals(testNode.getState().toArray(), node.getState().toArray())) {
                 return testNode;
             }
         }
@@ -56,5 +56,17 @@ public class Frontier {
 
     public boolean isEmpty() {
         return nodes.isEmpty();
+    }
+
+    public void print() {
+        System.out.println("**************Frontier***************");
+        for (Node node : nodes) {
+            System.out.println(node.getState());
+        }
+        System.out.println("**********************************");
+    }
+
+    public Integer getSize() {
+        return nodes.size();
     }
 }

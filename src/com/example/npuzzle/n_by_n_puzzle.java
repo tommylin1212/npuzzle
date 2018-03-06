@@ -3,6 +3,7 @@ package com.example.npuzzle;
 import java.util.ArrayList;
 
 public class n_by_n_puzzle {
+    private long iterations = 0;
     private Frontier frontier = new Frontier();
     private ExploredSet exploredSet = new ExploredSet();
     private boolean rule;//true is manhattan,false is displacement
@@ -24,21 +25,22 @@ public class n_by_n_puzzle {
             if (current.getState().get(blankPos++) == 0) break;
         }
         blankPos -= 1;
-        int pos = new Double(blankPos + 1 % Math.sqrt(current.getState().size())).intValue();
+        Integer rowLength = new Double(Math.sqrt(current.getState().size())).intValue();
+        int pos = new Double(blankPos % rowLength).intValue();
         ArrayList<Integer> validIndices = new ArrayList<>();
         if (pos == 0) {
-            Integer blankPosLeft = blankPos - 1;
-            Integer blankPosDown = new Double(blankPos + Math.sqrt((current.getState().size()))).intValue();
-            Integer blankPosUp = new Double(blankPos - Math.sqrt(current.getState().size())).intValue();
-            validIndices.add(blankPosDown);
-            validIndices.add(blankPosLeft);
-            validIndices.add(blankPosUp);
-        } else if (pos == new Double(Math.sqrt(current.getState().size())).intValue() - 1) {
             Integer blankPosRight = blankPos + 1;
             Integer blankPosDown = new Double(blankPos + Math.sqrt((current.getState().size()))).intValue();
             Integer blankPosUp = new Double(blankPos - Math.sqrt(current.getState().size())).intValue();
             validIndices.add(blankPosDown);
             validIndices.add(blankPosRight);
+            validIndices.add(blankPosUp);
+        } else if (pos == rowLength - 1) {
+            Integer blankPosLeft = blankPos - 1;
+            Integer blankPosDown = new Double(blankPos + Math.sqrt((current.getState().size()))).intValue();
+            Integer blankPosUp = new Double(blankPos - Math.sqrt(current.getState().size())).intValue();
+            validIndices.add(blankPosDown);
+            validIndices.add(blankPosLeft);
             validIndices.add(blankPosUp);
         } else {
             Integer blankPosLeft = blankPos - 1;
@@ -78,18 +80,6 @@ public class n_by_n_puzzle {
         return current;
     }
 
-    public Frontier getFrontier() {
-        return frontier;
-    }
-
-    public void setFrontier(Frontier frontier) {
-        this.frontier = frontier;
-    }
-
-    public boolean isRule() {
-        return rule;
-    }
-
     private void setRule(boolean rule) {
         this.rule = rule;
     }
@@ -97,14 +87,15 @@ public class n_by_n_puzzle {
     public Node search() {
 
         while (true) {
+            iterations++;
             if (frontier.isEmpty()) return null;
-            Node testNode = frontier.getFront();
-            testNode.print();
+            Node testNode = new Node(frontier.getFront());
+            //testNode.print();
             if (testNode.isGoal()) {
                 return testNode;
             }
             exploredSet.add(testNode);
-            ArrayList<Node> nextNodes = getNext(testNode);
+            ArrayList<Node> nextNodes = new ArrayList<>(getNext(testNode));
             for (Node node : nextNodes) {
                 if (!exploredSet.check(node)) {
                     if (frontier.check(node) && (frontier.getNode(node).getPathCost() > node.getPathCost())) {
@@ -116,12 +107,16 @@ public class n_by_n_puzzle {
         }
     }
 
-    public ExploredSet getExploredSet() {
-        return exploredSet;
+    public long getIterations() {
+        return iterations;
     }
 
-    public void setExploredSet(ExploredSet exploredSet) {
-        this.exploredSet = exploredSet;
+    public Integer getExploredSetSize() {
+        return exploredSet.getSize();
+    }
+
+    public Integer getFrontierSize() {
+        return frontier.getSize();
     }
 }
 

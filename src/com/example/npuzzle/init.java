@@ -6,23 +6,41 @@ import java.util.Collections;
 public class init {
 
     public static void main(String[] args) {
+        if (args.length != 3) {
+            System.out.print("Usage:Program [row_size][-D|-M][-O|-S]");
+            System.exit(2);
+        }
         Integer size = (new Integer(args[0]));
         boolean rule = true;
+        boolean silent = true;
         if (args[1].equals("-D")) {
             rule = false;
         }
+        if (args[2].equals("-O")) {
+            silent = false;
+        }
+
         ArrayList<Integer> startState = initPuzzle(size);
         while (!testPuzzle(startState)) {
             startState = initPuzzle(size);
         }
-
+        System.out.println("Found Valid Puzzle.");
         Node start = new Node(startState, null, rule);
         n_by_n_puzzle current_puzzle = new n_by_n_puzzle(start, rule);
         Node answer = current_puzzle.search();
         if (answer != null) {
-            System.out.println("Found Solution");
-            answer.print();
+            System.out.println("Found Solution.");
+            if (!silent) answer.traceBack();
+            if (rule) {
+                System.out.println("Used Manhattan Heuristic.");
+            } else {
+                System.out.println("Used Displaced Tiles Heuristic.");
+            }
+            System.out.println("Took: " + current_puzzle.getIterations() + " iterations.");
+            System.out.println("Explored: " + current_puzzle.getExploredSetSize() + " nodes.");
+            System.out.println("Frontier is: " + current_puzzle.getFrontierSize() + " nodes long.");
         }
+
         current_puzzle.printFrontier();
     }
 
@@ -61,9 +79,9 @@ public class init {
         if (count % 2 == 1) {
             inversionsEven = false;
         }
-        boolean blankOddFromBottom = false;
+        boolean blankOddFromBottom = true;
         if (blankFromBottom % 2 == 1) {
-            blankOddFromBottom = true;
+            blankOddFromBottom = false;
         }
         return (gridWidthOdd && inversionsEven) || (!gridWidthOdd && (blankOddFromBottom == inversionsEven));
     }
