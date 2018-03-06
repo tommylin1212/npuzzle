@@ -39,8 +39,9 @@ public class init {
             System.out.println("Took: " + current_puzzle.getIterations() + " iterations.");
             System.out.println("Explored: " + current_puzzle.getExploredSetSize() + " nodes.");
             System.out.println("Frontier is: " + current_puzzle.getFrontierSize() + " nodes long.");
+        } else {
+            System.out.println("No Solution");
         }
-
         current_puzzle.printFrontier();
     }
 
@@ -56,7 +57,7 @@ public class init {
         Integer i, j;
         boolean gridWidthOdd = false;
         boolean inversionsEven = true;
-        boolean blankOddFromBottom = true;
+        boolean blankOddFromBottom = false;
 
         if (rowSize % 2 == 1) {
             gridWidthOdd = true;
@@ -81,7 +82,7 @@ public class init {
             inversionsEven = false;
         }
         if (blankFromBottom % 2 == 1) {
-            blankOddFromBottom = false;
+            blankOddFromBottom = true;
         }
         return (gridWidthOdd && inversionsEven) || (!gridWidthOdd && (blankOddFromBottom == inversionsEven));
     }
