@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 public class Node {
     private ArrayList<Integer> state;
-    private String id;
     private Integer size;
     private Node parent;
     private Double pathCost;
@@ -17,7 +16,6 @@ public class Node {
         setRule(hRule);
         setState(init_state);
         setSize(init_state.size());
-        setId(((Integer) (System.identityHashCode(this))).toString());//unique id
         setParent(parent_id);
         calcCostGoal(init_state.size());
         if (parent_id != null) {
@@ -31,7 +29,6 @@ public class Node {
         setPathCost(node.getPathCost());
         setSize(node.getSize());
         setRule(node.isRule());
-        setId(node.getId());
         setParent(node.getParent());
         setState(node.getState());
         calcCostGoal(node.getState().size());
@@ -48,14 +45,12 @@ public class Node {
                 Integer desiredCol = valueAtPos / rowSize;
                 Integer desiredRow = valueAtPos % rowSize;
                 displacement += (Math.abs(col - desiredCol) + Math.abs(row - desiredRow));
-                //System.out.println("I: "+i+", Col: "+col+", DesCol: "+desiredCol+", Row: "+row+", DesRow: "+desiredRow+", Displacement: " + displacement);
             }
         } else {
             for (int i = 0; i < size; i++) {
                 Integer valueAtPos = state.get(i);
                 if (valueAtPos != i) {
                     displacement += 1;
-                    //System.out.println("I: "+i+", Value: "+valueAtPos+", Displacement: " + displacement);
                 }
             }
         }
@@ -80,14 +75,6 @@ public class Node {
         this.state = state;
     }
 
-    private String getId() {
-        return id;
-    }
-
-    private void setId(String id) {
-        this.id = id;
-    }
-
     private Node getParent() {
         return parent;
     }
@@ -97,7 +84,7 @@ public class Node {
     }
 
     public void print() {
-        System.out.println("Id: " + id + ", State: " + state + ", Displacement: " + displacement + ", Parent: " + parent);
+        System.out.println("State: " + state + ", Displacement: " + displacement + ", Parent: " + parent);
     }
 
     private boolean isRule() {
@@ -110,10 +97,6 @@ public class Node {
 
     private Double getDisplacement() {
         return displacement;
-    }
-
-    public void setDisplacement(Double displacement) {
-        this.displacement = displacement;
     }
 
     public Double getPathCost() {
@@ -133,21 +116,21 @@ public class Node {
     }
 
     private void prettyPrint() {
-        Integer rowsize = new Double(Math.sqrt(getSize())).intValue();
-        for (int i = 0; i < rowsize + 2; i++) {
+        Integer rowSize = new Double(Math.sqrt(getSize())).intValue();
+        for (int i = 0; i < rowSize + 2; i++) {
             System.out.print("-");
         }
         System.out.println();
         for (int i = 0; i < getSize(); i++) {
-            if (i % rowsize == 0) {
+            if (i % rowSize == 0) {
                 System.out.print("|");
             }
             System.out.print(state.get(i));
-            if (i % rowsize == rowsize - 1) {
+            if (i % rowSize == rowSize - 1) {
                 System.out.println("|");
             }
         }
-        for (int i = 0; i < rowsize + 2; i++) {
+        for (int i = 0; i < rowSize + 2; i++) {
             System.out.print("-");
         }
         System.out.println();

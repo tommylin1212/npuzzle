@@ -18,7 +18,7 @@ public class n_by_n_puzzle {
         //write print function
     }
 
-    public ArrayList<Node> getNext(Node current) {
+    private ArrayList<Node> getNext(Node current) {
         ArrayList<Integer> originalState = current.getState();
         int blankPos = 0;
         while (true) {
@@ -90,7 +90,6 @@ public class n_by_n_puzzle {
             iterations++;
             if (frontier.isEmpty()) return null;
             Node testNode = new Node(frontier.getFront());
-            //testNode.print();
             if (testNode.isGoal()) {
                 return testNode;
             }
@@ -99,9 +98,9 @@ public class n_by_n_puzzle {
             for (Node node : nextNodes) {
                 if (!exploredSet.check(node)) {
                     if (frontier.check(node) && (frontier.getNode(node).getPathCost() > node.getPathCost())) {
-                        frontier.remove(node);//this looks like it does nothing
-                    }
-                    frontier.add(node);//but it does trust me
+                        frontier.remove(node);//this looks like it does nothing but it does trust me
+                    }//A* remove if already there and cost is higher.
+                    frontier.add(node);
                 }
             }
         }

@@ -54,8 +54,10 @@ public class init {
         Integer blankFromBottom = 0;
         Integer currentValue;
         Integer i, j;
-
         boolean gridWidthOdd = false;
+        boolean inversionsEven = true;
+        boolean blankOddFromBottom = true;
+
         if (rowSize % 2 == 1) {
             gridWidthOdd = true;
         }
@@ -75,11 +77,9 @@ public class init {
             }
             count += thisCount;
         }
-        boolean inversionsEven = true;
         if (count % 2 == 1) {
             inversionsEven = false;
         }
-        boolean blankOddFromBottom = true;
         if (blankFromBottom % 2 == 1) {
             blankOddFromBottom = false;
         }
