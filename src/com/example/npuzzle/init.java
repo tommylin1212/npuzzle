@@ -7,18 +7,23 @@ public class init {
 
     public static void main(String[] args) {
         Integer size = (new Integer(args[0]));
+        boolean rule = true;
+        if (args[1].equals("-D")) {
+            rule = false;
+        }
         ArrayList<Integer> startState = initPuzzle(size);
         while (!testPuzzle(startState)) {
             startState = initPuzzle(size);
         }
-        Node start = new Node(startState, "-1");
-        n_by_n_puzzle current_puzzle = new n_by_n_puzzle(start);
-        ArrayList<Node> nodes = current_puzzle.getNext(start);
-        for (Node node : nodes) {
-            current_puzzle.addNode(node);
-        }
 
-        current_puzzle.printNodes();
+        Node start = new Node(startState, null, rule);
+        n_by_n_puzzle current_puzzle = new n_by_n_puzzle(start, rule);
+        Node answer = current_puzzle.search();
+        if (answer != null) {
+            System.out.println("Found Solution");
+            answer.print();
+        }
+        current_puzzle.printFrontier();
     }
 
 

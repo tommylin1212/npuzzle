@@ -3,31 +3,18 @@ package com.example.npuzzle;
 import java.util.ArrayList;
 
 public class n_by_n_puzzle {
-    private ArrayList<Node> nodes;
+    private Frontier frontier = new Frontier();
+    private ExploredSet exploredSet = new ExploredSet();
+    private boolean rule;//true is manhattan,false is displacement
 
-    n_by_n_puzzle(Node start) {
-        setNodes(new ArrayList<Node>());//init list
-        addNode(start);
+    n_by_n_puzzle(Node start, boolean hrule) {
+        setRule(hrule);
+        frontier.add(start);
     }
 
 
-    public ArrayList<Node> getNodes() {
-        return nodes;
-    }
-
-    private void setNodes(ArrayList<Node> nodes) {
-        this.nodes = nodes;
-    }
-
-
-    public void addNode(Node node) {
-        this.nodes.add(node);
-    }
-
-    public void printNodes() {
-        for (Node node : this.nodes) {
-            node.print();
-        }
+    public void printFrontier() {
+        //write print function
     }
 
     public ArrayList<Node> getNext(Node current) {
@@ -77,7 +64,7 @@ public class n_by_n_puzzle {
         for (Integer move : validIndices) {
             ArrayList<Integer> newState = new ArrayList<>(originalState);
             newState = swap(newState, move, blankPos);
-            newNodes.add(new Node(newState, current.getId()));
+            newNodes.add(new Node(newState, current, rule));
 
         }
         return newNodes;
@@ -89,6 +76,52 @@ public class n_by_n_puzzle {
         current.set(from, atTo);
         current.set(to, atFrom);
         return current;
+    }
+
+    public Frontier getFrontier() {
+        return frontier;
+    }
+
+    public void setFrontier(Frontier frontier) {
+        this.frontier = frontier;
+    }
+
+    public boolean isRule() {
+        return rule;
+    }
+
+    private void setRule(boolean rule) {
+        this.rule = rule;
+    }
+
+    public Node search() {
+
+        while (true) {
+            if (frontier.isEmpty()) return null;
+            Node testNode = frontier.getFront();
+            testNode.print();
+            if (testNode.isGoal()) {
+                return testNode;
+            }
+            exploredSet.add(testNode);
+            ArrayList<Node> nextNodes = getNext(testNode);
+            for (Node node : nextNodes) {
+                if (!exploredSet.check(node)) {
+                    if (frontier.check(node) && (frontier.getNode(node).getPathCost() > node.getPathCost())) {
+                        frontier.remove(node);//this looks like it does nothing
+                    }
+                    frontier.add(node);//but it does trust me
+                }
+            }
+        }
+    }
+
+    public ExploredSet getExploredSet() {
+        return exploredSet;
+    }
+
+    public void setExploredSet(ExploredSet exploredSet) {
+        this.exploredSet = exploredSet;
     }
 }
 
