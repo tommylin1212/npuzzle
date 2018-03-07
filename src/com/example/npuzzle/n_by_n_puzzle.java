@@ -97,10 +97,17 @@ public class n_by_n_puzzle {
             ArrayList<Node> nextNodes = new ArrayList<>(getNext(testNode));
             for (Node node : nextNodes) {
                 if (!exploredSet.check(node)) {
-                    if (frontier.check(node) && (frontier.getNode(node).getPathCost() > node.getPathCost())) {
+                    if (frontier.check(node) && (frontier.getNode(node).getPathCost() >= node.getPathCost())) {
                         frontier.remove(node);//this looks like it does nothing but it does trust me
                     }//A* remove if already there and cost is higher.
-                    frontier.add(node);
+                    if(!frontier.check(node)){
+						
+						frontier.add(node);
+					}
+					else{
+						System.out.println("Why here?");
+					}
+			
                 }
             }
         }

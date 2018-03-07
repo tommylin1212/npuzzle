@@ -11,7 +11,13 @@ public class ExploredSet {
     }
 
     public void add(Node node) {
-        nodes.add(node);
+        int i;
+        for (i = 0; i < nodes.size(); i++) {
+            if (nodes.get(i).getPathCost() > node.getPathCost()) {
+                break;
+            }
+        }
+        nodes.add(i, node);
     }
 
     public boolean check(Node node) {

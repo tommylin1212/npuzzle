@@ -81,7 +81,7 @@ public class init {
         if (count % 2 == 1) {
             inversionsEven = false;
         }
-        if (blankFromBottom % 2 == 1) {
+        if (blankFromBottom % 2 == 0) {
             blankOddFromBottom = true;
         }
         return (gridWidthOdd && inversionsEven) || (!gridWidthOdd && (blankOddFromBottom == inversionsEven));
