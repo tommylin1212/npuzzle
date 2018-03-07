@@ -2,7 +2,7 @@ package com.example.npuzzle;
 
 import java.util.ArrayList;
 
-public class n_by_n_puzzle {
+class n_by_n_puzzle {
     private long iterations = 0;
     private Frontier frontier = new Frontier();
     private ExploredSet exploredSet = new ExploredSet();
@@ -13,21 +13,18 @@ public class n_by_n_puzzle {
         frontier.add(start);
     }
 
-
-    public void printFrontier() {
-        //write print function
-    }
-
     private ArrayList<Node> getNext(Node current) {
         ArrayList<Integer> originalState = current.getState();
         int blankPos = 0;
+        ArrayList<Node> newNodes = new ArrayList<>();
+        ArrayList<Integer> toRemove = new ArrayList<>();
+        Integer rowLength = new Double(Math.sqrt(current.getState().size())).intValue();
+        int pos = new Double(blankPos % rowLength).intValue();
+        ArrayList<Integer> validIndices = new ArrayList<>();
         while (true) {
             if (current.getState().get(blankPos++) == 0) break;
         }
         blankPos -= 1;
-        Integer rowLength = new Double(Math.sqrt(current.getState().size())).intValue();
-        int pos = new Double(blankPos % rowLength).intValue();
-        ArrayList<Integer> validIndices = new ArrayList<>();
         if (pos == 0) {
             Integer blankPosRight = blankPos + 1;
             Integer blankPosDown = new Double(blankPos + Math.sqrt((current.getState().size()))).intValue();
@@ -52,8 +49,7 @@ public class n_by_n_puzzle {
             validIndices.add(blankPosRight);
             validIndices.add(blankPosUp);
         }
-        ArrayList<Node> newNodes = new ArrayList<>();
-        ArrayList<Integer> toRemove = new ArrayList<>();
+
         for (Integer move : validIndices) {
             if ((move >= current.getState().size()) || (move < 0)) {
                 toRemove.add(move);
@@ -84,7 +80,7 @@ public class n_by_n_puzzle {
         this.rule = rule;
     }
 
-    public Node search() {
+    Node search() {
 
         while (true) {
             iterations++;
@@ -95,33 +91,31 @@ public class n_by_n_puzzle {
             }
             exploredSet.add(testNode);
             ArrayList<Node> nextNodes = new ArrayList<>(getNext(testNode));
-            for (Node node : nextNodes) {
-                if (!exploredSet.check(node)) {
-                    if (frontier.check(node) && (frontier.getNode(node).getPathCost() >= node.getPathCost())) {
-                        frontier.remove(node);//this looks like it does nothing but it does trust me
+            for (Node child : nextNodes) {
+                if (!exploredSet.check(child)) {
+                    if (frontier.check(child) && ((frontier.getNode(child)).getPathCost() > child.getPathCost())) {
+                        System.out.println("In front with higher.");
+                        frontier.remove(child);//this looks like it does nothing but it does trust me
                     }//A* remove if already there and cost is higher.
-                    if(!frontier.check(node)){
-						
-						frontier.add(node);
-					}
-					else{
-						System.out.println("Why here?");
-					}
-			
+                    else if (frontier.check(child) && ((frontier.getNode(child)).getPathCost() <= child.getPathCost())) {
+                        //System.out.println("In front with lower.");
+                    } else {
+                        frontier.add(child);
+                    }
                 }
             }
         }
     }
 
-    public long getIterations() {
+    long getIterations() {
         return iterations;
     }
 
-    public Integer getExploredSetSize() {
+    Integer getExploredSetSize() {
         return exploredSet.getSize();
     }
 
-    public Integer getFrontierSize() {
+    Integer getFrontierSize() {
         return frontier.getSize();
     }
 }

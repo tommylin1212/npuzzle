@@ -30,7 +30,7 @@ public class init {
         Node answer = current_puzzle.search();
         if (answer != null) {
             System.out.println("Found Solution.");
-            if (!silent) answer.traceBack();
+            if (!silent) answer.traceBack(0);
             if (rule) {
                 System.out.println("Used Manhattan Heuristic.");
             } else {
@@ -42,7 +42,6 @@ public class init {
         } else {
             System.out.println("No Solution");
         }
-        current_puzzle.printFrontier();
     }
 
 
@@ -65,7 +64,7 @@ public class init {
         for (i = 0, j = 0; i < size - 1; i++) {
             currentValue = puzzle.get(j++);
             if (currentValue == 0) {
-                blankFromBottom = (new Double((rowSize - 1) - (i / rowSize)).intValue());
+                blankFromBottom = new Double((rowSize - 1) - (i / rowSize)).intValue();
                 continue;
             }
             temp = j;

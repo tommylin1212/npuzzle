@@ -10,7 +10,7 @@ public class Frontier {
         nodes = new ArrayList<>();
     }
 
-    public void add(Node node) {
+    void add(Node node) {
         int i;
         for (i = 0; i < nodes.size(); i++) {
             if (nodes.get(i).getPathCost() > node.getPathCost()) {
@@ -20,7 +20,7 @@ public class Frontier {
         nodes.add(i, node);
     }
 
-    public boolean check(Node node) {
+    boolean check(Node node) {
         for (Node testNode : nodes) {
             if (Arrays.equals(testNode.getState().toArray(), node.getState().toArray())) {
                 return true;
@@ -29,7 +29,7 @@ public class Frontier {
         return false;
     }
 
-    public void remove(Node node) {
+    void remove(Node node) {
         for (Node testNode : nodes) {
             if (Arrays.equals(testNode.getState().toArray(), node.getState().toArray())) {
                 nodes.remove(testNode);
@@ -39,13 +39,13 @@ public class Frontier {
         }
     }
 
-    public Node getFront() {
+    Node getFront() {
         Node temp = nodes.remove(0);
         nodes.trimToSize();
         return temp;
     }
 
-    public Node getNode(Node node) {
+    Node getNode(Node node) {
         for (Node testNode : nodes) {
             if (Arrays.equals(testNode.getState().toArray(), node.getState().toArray())) {
                 return testNode;
@@ -54,7 +54,7 @@ public class Frontier {
         return null;//shouldn't ever get here
     }
 
-    public boolean isEmpty() {
+    boolean isEmpty() {
         return nodes.isEmpty();
     }
 
@@ -66,7 +66,7 @@ public class Frontier {
         System.out.println("**********************************");
     }
 
-    public Integer getSize() {
+    Integer getSize() {
         return nodes.size();
     }
 }

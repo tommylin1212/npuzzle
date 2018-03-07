@@ -19,7 +19,7 @@ public class Node {
         setParent(parent_id);
         calcCostGoal(init_state.size());
         if (parent_id != null) {
-            setPathCost(getParent().getPathCost() + getDisplacement());
+            setPathCost(getDisplacement());
         } else {
             setPathCost(getDisplacement());
         }
@@ -56,7 +56,7 @@ public class Node {
         }
     }
 
-    public boolean isGoal() {
+    boolean isGoal() {
         Integer size = getSize();
         for (int i = 0; i < size; i++) {
             Integer valueAtPos = state.get(i);
@@ -67,7 +67,7 @@ public class Node {
         return true;
     }
 
-    public ArrayList<Integer> getState() {
+    ArrayList<Integer> getState() {
         return state;
     }
 
@@ -84,7 +84,7 @@ public class Node {
     }
 
     public void print() {
-        System.out.println("State: " + state + ", Displacement: " + displacement + ", Parent: " + parent);
+        System.out.println("State: " + state + ", PathCost: " + pathCost + ", Parent: " + parent);
     }
 
     private boolean isRule() {
@@ -99,7 +99,7 @@ public class Node {
         return displacement;
     }
 
-    public Double getPathCost() {
+    Double getPathCost() {
         return pathCost;
     }
 
@@ -136,9 +136,12 @@ public class Node {
         System.out.println();
     }
 
-    public void traceBack() {
+    void traceBack(int i) {
+        i++;
         if (getParent() != null) {
-            getParent().traceBack();
+            getParent().traceBack(i);
+        } else {
+            System.out.println(i + " moves in solution.");
         }
         prettyPrint();
     }

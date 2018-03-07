@@ -10,7 +10,7 @@ public class ExploredSet {
         nodes = new ArrayList<>();
     }
 
-    public void add(Node node) {
+    void add(Node node) {
         int i;
         for (i = 0; i < nodes.size(); i++) {
             if (nodes.get(i).getPathCost() > node.getPathCost()) {
@@ -20,7 +20,7 @@ public class ExploredSet {
         nodes.add(i, node);
     }
 
-    public boolean check(Node node) {
+    boolean check(Node node) {
         for (Node testNode : nodes) {
             if (Arrays.equals(testNode.getState().toArray(), node.getState().toArray())) {
                 return true;
@@ -37,7 +37,7 @@ public class ExploredSet {
         System.out.println("**********************************");
     }
 
-    public Integer getSize() {
+    Integer getSize() {
         return nodes.size();
     }
 
