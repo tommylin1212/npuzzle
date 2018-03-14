@@ -73,7 +73,7 @@ class n_by_n_puzzle {
         Integer atTo = current.get(to);
         current.set(from, atTo);
         current.set(to, atFrom);
-        return current;
+        return current;//hello
     }
 
     private void setRule(boolean rule) {
