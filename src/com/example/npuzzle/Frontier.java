@@ -13,7 +13,7 @@ public class Frontier {
     void add(Node node) {
         int i;
         for (i = 0; i < nodes.size(); i++) {
-            if (nodes.get(i).getPathCost() > node.getPathCost()) {
+            if (nodes.get(i).getDisplacement() > node.getDisplacement()) {
                 break;
             }
         }
@@ -51,7 +51,7 @@ public class Frontier {
                 return testNode;
             }
         }
-        return null;//shouldn't ever get here
+        return null;//shouldn't ever get here...i hope
     }
 
     boolean isEmpty() {

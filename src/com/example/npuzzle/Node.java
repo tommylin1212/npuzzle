@@ -7,7 +7,6 @@ public class Node {
     private ArrayList<Integer> state;
     private Integer size;
     private Node parent;
-    private Double pathCost;
     private Double displacement;
     private boolean rule;//true is manhattan distance, false is misplaced;
 
@@ -18,15 +17,9 @@ public class Node {
         setSize(init_state.size());
         setParent(parent_id);
         calcCostGoal(init_state.size());
-        if (parent_id != null) {
-            setPathCost(getDisplacement());
-        } else {
-            setPathCost(getDisplacement());
-        }
     }
 
     Node(Node node) {
-        setPathCost(node.getPathCost());
         setSize(node.getSize());
         setRule(node.isRule());
         setParent(node.getParent());
@@ -84,7 +77,7 @@ public class Node {
     }
 
     public void print() {
-        System.out.println("State: " + state + ", PathCost: " + pathCost + ", Parent: " + parent);
+        System.out.println("State: " + state + ", PathCost: " + displacement + ", Parent: " + parent);
     }
 
     private boolean isRule() {
@@ -95,16 +88,8 @@ public class Node {
         this.rule = rule;
     }
 
-    private Double getDisplacement() {
+    Double getDisplacement() {
         return displacement;
-    }
-
-    Double getPathCost() {
-        return pathCost;
-    }
-
-    private void setPathCost(Double pathCost) {
-        this.pathCost = pathCost;
     }
 
     private Integer getSize() {

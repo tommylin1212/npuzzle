@@ -21,34 +21,27 @@ class n_by_n_puzzle {
         Integer rowLength = new Double(Math.sqrt(current.getState().size())).intValue();
         int pos = new Double(blankPos % rowLength).intValue();
         ArrayList<Integer> validIndices = new ArrayList<>();
+
         while (true) {
             if (current.getState().get(blankPos++) == 0) break;
         }
         blankPos -= 1;
         if (pos == 0) {
             Integer blankPosRight = blankPos + 1;
-            Integer blankPosDown = new Double(blankPos + Math.sqrt((current.getState().size()))).intValue();
-            Integer blankPosUp = new Double(blankPos - Math.sqrt(current.getState().size())).intValue();
-            validIndices.add(blankPosDown);
             validIndices.add(blankPosRight);
-            validIndices.add(blankPosUp);
         } else if (pos == rowLength - 1) {
             Integer blankPosLeft = blankPos - 1;
-            Integer blankPosDown = new Double(blankPos + Math.sqrt((current.getState().size()))).intValue();
-            Integer blankPosUp = new Double(blankPos - Math.sqrt(current.getState().size())).intValue();
-            validIndices.add(blankPosDown);
             validIndices.add(blankPosLeft);
-            validIndices.add(blankPosUp);
         } else {
             Integer blankPosLeft = blankPos - 1;
             Integer blankPosRight = blankPos + 1;
-            Integer blankPosDown = new Double(blankPos + Math.sqrt((current.getState().size()))).intValue();
-            Integer blankPosUp = new Double(blankPos - Math.sqrt(current.getState().size())).intValue();
-            validIndices.add(blankPosDown);
             validIndices.add(blankPosLeft);
             validIndices.add(blankPosRight);
-            validIndices.add(blankPosUp);
         }
+        Integer blankPosDown =blankPos+rowLength;
+        Integer blankPosUp = blankPos-rowLength;
+        validIndices.add(blankPosUp);
+        validIndices.add(blankPosDown);
 
         for (Integer move : validIndices) {
             if ((move >= current.getState().size()) || (move < 0)) {
@@ -73,7 +66,7 @@ class n_by_n_puzzle {
         Integer atTo = current.get(to);
         current.set(from, atTo);
         current.set(to, atFrom);
-        return current;//hello
+        return current;
     }
 
     private void setRule(boolean rule) {
@@ -83,7 +76,7 @@ class n_by_n_puzzle {
     Node search() {
 
         while (true) {
-            iterations++;
+
             if (frontier.isEmpty()) return null;
             Node testNode = new Node(frontier.getFront());
             if (testNode.isGoal()) {
@@ -92,14 +85,13 @@ class n_by_n_puzzle {
             exploredSet.add(testNode);
             ArrayList<Node> nextNodes = new ArrayList<>(getNext(testNode));
             for (Node child : nextNodes) {
+                iterations++;
                 if (!exploredSet.check(child)) {
-                    if (frontier.check(child) && ((frontier.getNode(child)).getPathCost() > child.getPathCost())) {
+                    if (frontier.check(child) && ((frontier.getNode(child)).getDisplacement() > child.getDisplacement())) {
                         System.out.println("In front with higher.");
                         frontier.remove(child);//this looks like it does nothing but it does trust me
                     }//A* remove if already there and cost is higher.
-                    else if (frontier.check(child) && ((frontier.getNode(child)).getPathCost() <= child.getPathCost())) {
-                        //System.out.println("In front with lower.");
-                    } else {
+                    else {
                         frontier.add(child);
                     }
                 }

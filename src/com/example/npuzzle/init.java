@@ -6,17 +6,17 @@ import java.util.Collections;
 public class init {
 
     public static void main(String[] args) {
-        if (args.length != 3) {
-            System.out.print("Usage:Program [row_size][-D|-M][-O|-S]");
+        if (args.length != 2) {
+            System.out.print("Usage:Program [-D(isplacement)|-M(anhattan)][-O(utput)|-S(ilent)]");
             System.exit(2);
         }
-        Integer size = (new Integer(args[0]));
+        Integer size = 3;
         boolean rule = true;
         boolean silent = true;
-        if (args[1].equals("-D")) {
+        if (args[0].equals("-D")) {
             rule = false;
         }
-        if (args[2].equals("-O")) {
+        if (args[1].equals("-O")) {
             silent = false;
         }
 
