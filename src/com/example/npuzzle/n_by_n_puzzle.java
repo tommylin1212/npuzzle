@@ -26,13 +26,13 @@ class n_by_n_puzzle {
             if (current.getState().get(blankPos++) == 0) break;
         }
         blankPos -= 1;
-        if (pos == 0) {
+        if (pos == 0) {//right side
             Integer blankPosRight = blankPos + 1;
             validIndices.add(blankPosRight);
-        } else if (pos == rowLength - 1) {
+        } else if (pos == rowLength - 1) {//left side
             Integer blankPosLeft = blankPos - 1;
             validIndices.add(blankPosLeft);
-        } else {
+        } else {//middle column
             Integer blankPosLeft = blankPos - 1;
             Integer blankPosRight = blankPos + 1;
             validIndices.add(blankPosLeft);
@@ -43,7 +43,7 @@ class n_by_n_puzzle {
         validIndices.add(blankPosUp);
         validIndices.add(blankPosDown);
 
-        for (Integer move : validIndices) {
+        for (Integer move : validIndices) {//find out of range indices to remove
             if ((move >= current.getState().size()) || (move < 0)) {
                 toRemove.add(move);
             }
